@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MediaTekDocuments.model;
 using MediaTekDocuments.dal;
+using System;
 
 namespace MediaTekDocuments.controller
 {
@@ -41,12 +42,35 @@ namespace MediaTekDocuments.controller
         }
 
         /// <summary>
+        /// getter sur les listes de commandes des livres
+        /// </summary>
+        /// <returns>Liste d'objets Rayon</returns>
+        public List<CommandeDocument> GetAllCommandesLivres()
+        {
+            return access.GetAllCommandesLivres();
+        }
+
+        public bool CreerCommandeDocument(CommandeDocument commandeDocument)
+        {
+            return access.CreerCommandeDocument(commandeDocument);
+        }
+
+        /// <summary>
         /// getter sur la liste des Dvd
         /// </summary>
         /// <returns>Liste d'objets dvd</returns>
         public List<Dvd> GetAllDvd()
         {
             return access.GetAllDvd();
+        }
+
+        /// <summary>
+        /// getter sur les listes de commandes DVD
+        /// </summary>
+        /// <returns>Liste d'objets Rayon</returns>
+        public List<CommandeDocument> GetAllCommandesDvd()
+        {
+            return access.GetAllCommandesDvd();
         }
 
         /// <summary>
@@ -75,7 +99,14 @@ namespace MediaTekDocuments.controller
         {
             return access.GetAllPublics();
         }
-
+        /// <summary>
+        /// getter sur la liste des suivi commande
+        /// </summary>
+        /// <returns>Liste d'objets Revue</returns>
+        public List<SuiviCommande> GetAllSuiviCommande()
+        {
+            return access.GetAllSuiviCommande();
+        }
 
         /// <summary>
         /// récupère les exemplaires d'une revue
@@ -95,6 +126,16 @@ namespace MediaTekDocuments.controller
         public bool CreerExemplaire(Exemplaire exemplaire)
         {
             return access.CreerExemplaire(exemplaire);
+        }
+
+        public bool ModifierCommandeDocument(Dictionary<string,string> suiviIdChange)
+        {
+            return access.ModifierCommandeDocument(suiviIdChange);
+        }
+
+        public bool SupprCommandeDocument(Dictionary<string,string> idDocument)
+        {
+            return access.SupprCommandeDocument(idDocument);
         }
     }
 }

@@ -36,7 +36,9 @@ namespace MediaTekDocuments.dal
         private const string POST = "POST";
         /// <summary>
         /// méthode HTTP pour update
-
+        private const string PUT = "PUT";
+        
+        private const string DELETE = "DELETE";
         /// <summary>
         /// Méthode privée pour créer un singleton
         /// initialise l'accès à l'API
@@ -110,6 +112,54 @@ namespace MediaTekDocuments.dal
         }
 
         /// <summary>
+        /// Retourne toutes les commandes de document à partir de la BDD
+        /// </summary>
+        /// <returns>Liste d'objets Livre</returns>
+        public List<CommandeDocument> GetAllCommandesLivres()
+        {
+            List<CommandeDocument> lesCommandesDocuments = TraitementRecup<CommandeDocument>(GET, "commandeslivres");
+            return lesCommandesDocuments;
+        }
+
+        public List<SuiviCommande> GetAllSuiviCommande()
+        {
+            List<SuiviCommande> lesSuivisCommandes = TraitementRecup<SuiviCommande>(GET, "suivicommande");
+            return lesSuivisCommandes;
+        }
+
+        public bool SupprCommandeDocument(Dictionary<string, string> idDocument)
+        {
+            String jsonCommandeDocument = JsonConvert.SerializeObject(idDocument, new CustomDateTimeConverter());
+
+            try
+            {
+                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(DELETE, "commande/" + jsonCommandeDocument);
+                return (liste != null);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public bool CreerCommandeDocument(CommandeDocument commandeDocument)
+        {
+            String jsonCommandeDocument = JsonConvert.SerializeObject(commandeDocument, new CustomDateTimeConverter());
+            Console.WriteLine(jsonCommandeDocument);
+            try
+            {
+                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(POST, "commandedocument/" + jsonCommandeDocument);
+                return (liste != null);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Retourne toutes les dvd à partir de la BDD
         /// </summary>
         /// <returns>Liste d'objets Dvd</returns>
@@ -117,6 +167,16 @@ namespace MediaTekDocuments.dal
         {
             List<Dvd> lesDvd = TraitementRecup<Dvd>(GET, "dvd");
             return lesDvd;
+        }
+
+        /// <summary>
+        /// Retourne toutes les commandes Dvd
+        /// </summary>
+        /// <returns></returns>
+        public List<CommandeDocument> GetAllCommandesDvd()
+        {
+            List<CommandeDocument> lesCommandesDocuments = TraitementRecup<CommandeDocument>(GET, "commandesdvds");
+            return lesCommandesDocuments;
         }
 
         /// <summary>
@@ -149,7 +209,9 @@ namespace MediaTekDocuments.dal
         public bool CreerExemplaire(Exemplaire exemplaire)
         {
             String jsonExemplaire = JsonConvert.SerializeObject(exemplaire, new CustomDateTimeConverter());
-            try {
+            Console.WriteLine(jsonExemplaire);
+            try
+            {
                 // récupération soit d'une liste vide (requête ok) soit de null (erreur)
                 List<Exemplaire> liste = TraitementRecup<Exemplaire>(POST, "exemplaire/" + jsonExemplaire);
                 return (liste != null);
@@ -158,7 +220,31 @@ namespace MediaTekDocuments.dal
             {
                 Console.WriteLine(ex.Message);
             }
-            return false; 
+            return false;
+        }
+
+
+        /// <summary>
+        /// modification d'une commande de document dans la base de données
+        /// </summary>
+        /// <param name="suiviIdChange">exemplaire à insérer</param>
+        /// <returns>true si la modification a pu se faire (retour != null)</returns>
+        public bool ModifierCommandeDocument(Dictionary<string, string> suiviIdChange)
+
+        {
+            String jsonsuiviIdChange = JsonConvert.SerializeObject(suiviIdChange, new CustomDateTimeConverter());
+            Console.WriteLine(jsonsuiviIdChange);
+            try
+            {
+                // récupération soit d'une liste vide (requête ok) soit de null (erreur)
+                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(PUT, "commandedocument/" + suiviIdChange["id"] + "/" +jsonsuiviIdChange );
+                return (liste != null);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
         }
 
         /// <summary>
