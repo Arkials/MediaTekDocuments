@@ -37,7 +37,14 @@ namespace MediaTekDocuments.dal
         /// <summary>
         /// méthode HTTP pour update
         private const string PUT = "PUT";
-        
+
+        public  List<CommandeRevue> GetFinAbonnement()
+        {
+
+            List<CommandeRevue> lesCommandesRevues = TraitementRecup<CommandeRevue>(GET, "finabonnement");
+            return lesCommandesRevues;
+        }
+
         private const string DELETE = "DELETE";
         /// <summary>
         /// Méthode privée pour créer un singleton
@@ -127,7 +134,7 @@ namespace MediaTekDocuments.dal
             return lesSuivisCommandes;
         }
 
-        public bool SupprCommandeDocument(Dictionary<string, string> idDocument)
+        public bool SupprCommande(Dictionary<string, string> idDocument)
         {
             String jsonCommandeDocument = JsonConvert.SerializeObject(idDocument, new CustomDateTimeConverter());
 
@@ -141,6 +148,28 @@ namespace MediaTekDocuments.dal
                 Console.WriteLine(ex.Message);
             }
             return false;
+        }
+
+        public bool CreerCommandeRevue(CommandeRevue nvlCommandeRevue)
+        {
+            String jsonCommandeRevue = JsonConvert.SerializeObject(nvlCommandeRevue, new CustomDateTimeConverter());
+            Console.WriteLine(jsonCommandeRevue);
+            try
+            {
+                List<CommandeRevue> liste = TraitementRecup<CommandeRevue>(POST, "abonnement/" + jsonCommandeRevue);
+                return (liste != null);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public List<CommandeRevue> GetAllCommandesRevues()
+        {
+            List<CommandeRevue> lesCommandesRevues = TraitementRecup<CommandeRevue>(GET, "abonnement");
+            return lesCommandesRevues;
         }
 
         public bool CreerCommandeDocument(CommandeDocument commandeDocument)
@@ -227,7 +256,7 @@ namespace MediaTekDocuments.dal
         /// <summary>
         /// modification d'une commande de document dans la base de données
         /// </summary>
-        /// <param name="suiviIdChange">exemplaire à insérer</param>
+        /// <param name="suiviIdChange">étape à modifier</param>
         /// <returns>true si la modification a pu se faire (retour != null)</returns>
         public bool ModifierCommandeDocument(Dictionary<string, string> suiviIdChange)
 

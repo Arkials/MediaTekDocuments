@@ -41,6 +41,11 @@ namespace MediaTekDocuments.controller
             return access.GetAllLivres();
         }
 
+        public  List<CommandeRevue> GetFinAbonnement()
+        {
+            return access.GetFinAbonnement();
+        }
+
         /// <summary>
         /// getter sur les listes de commandes des livres
         /// </summary>
@@ -133,9 +138,19 @@ namespace MediaTekDocuments.controller
             return access.ModifierCommandeDocument(suiviIdChange);
         }
 
-        public bool SupprCommandeDocument(Dictionary<string,string> idDocument)
+        public bool SupprCommande(Dictionary<string,string> idDocument)
         {
-            return access.SupprCommandeDocument(idDocument);
+            return access.SupprCommande(idDocument);
+        }
+
+        public List<CommandeRevue> GetAllCommandesRevue()
+        {
+            return access.GetAllCommandesRevues();
+        }
+
+        public bool CreerCommandeRevue(CommandeRevue nvlCommandeRevue)
+        {
+            return access.CreerCommandeRevue(nvlCommandeRevue);
         }
     }
 }
