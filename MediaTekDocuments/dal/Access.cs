@@ -18,6 +18,9 @@ namespace MediaTekDocuments.dal
         /// adresse de l'API
         /// </summary>
         private static readonly string uriApi = "http://localhost/rest_mediatekdocuments/";
+
+        
+
         /// <summary>
         /// instance unique de la classe
         /// </summary>
@@ -76,6 +79,14 @@ namespace MediaTekDocuments.dal
                 instance = new Access();
             }
             return instance;
+        }
+
+        public List<Utilisateur> GetUtilisateur(Identifiants identifiants)
+        {
+            String JsonIdentifiants = JsonConvert.SerializeObject(identifiants);
+            Console.WriteLine(JsonIdentifiants);
+            List<Utilisateur> utilisateurLogged = TraitementRecup<Utilisateur>(GET, "utilisateurs/" + JsonIdentifiants);
+            return utilisateurLogged;
         }
 
         /// <summary>
@@ -226,7 +237,10 @@ namespace MediaTekDocuments.dal
         /// <returns>Liste d'objets Exemplaire</returns>
         public List<Exemplaire> GetExemplairesRevue(string idDocument)
         {
-            List<Exemplaire> lesExemplaires = TraitementRecup<Exemplaire>(GET, "exemplaire/" + idDocument);
+            Dictionary<string, string> idDocumentArray= new Dictionary<string, string>();
+            idDocumentArray.Add("id", idDocument);
+            string jsonIdDocument = JsonConvert.SerializeObject(idDocumentArray);
+            List<Exemplaire> lesExemplaires = TraitementRecup<Exemplaire>(GET, "exemplaire/" + jsonIdDocument);
             return lesExemplaires;
         }
 

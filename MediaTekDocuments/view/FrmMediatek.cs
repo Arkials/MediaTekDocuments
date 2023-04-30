@@ -20,6 +20,7 @@ namespace MediaTekDocuments.view
 
         #region Commun
         private readonly FrmMediatekController controller;
+        private readonly Utilisateur UtilisateurLogged;
         private readonly BindingSource bdgGenres = new BindingSource();
         private readonly BindingSource bdgPublics = new BindingSource();
         private readonly BindingSource bdgRayons = new BindingSource();
@@ -30,12 +31,34 @@ namespace MediaTekDocuments.view
         /// <summary>
         /// Constructeur : création du contrôleur lié à ce formulaire
         /// </summary>
-        public FrmMediatek()
+        public FrmMediatek(Utilisateur utilisateurLogged)
         {
             InitializeComponent();
+            this.UtilisateurLogged = utilisateurLogged;
             this.controller = new FrmMediatekController();
-            abonnementsBientotTermines();
+            Init();
             
+        }
+        private void Init()
+        {
+            switch (UtilisateurLogged.IdService)
+            {
+                case 2 :
+                    abonnementsBientotTermines();
+                    break;
+                case 3:
+
+                    tabCommandesLivres.Enabled = false;
+                    tabCommandesLivres.Visible = false;
+                    tabCommandesDVD.Enabled = false;
+                    tabCommandesDVD.Visible = false;
+                    tabCommandesRevues.Enabled = false;
+                    tabCommandesRevues.Visible = false;
+                    tabReceptionRevue.Enabled = false;
+                    tabReceptionRevue.Visible = false;
+                    break;
+            }
+
         }
 
 
@@ -1918,8 +1941,8 @@ namespace MediaTekDocuments.view
             }
         }
 
+
+
         #endregion
-
-
     }
 }

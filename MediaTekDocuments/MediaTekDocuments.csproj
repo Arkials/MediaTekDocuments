@@ -98,13 +98,17 @@
     <Reference Include="ZstdNet, Version=1.4.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="controller\FrmAuthentificationController.cs" />
+    <Compile Include="controller\sav.cs" />
     <Compile Include="manager\ApiRest.cs" />
     <Compile Include="controller\FrmMediatekController.cs" />
     <Compile Include="dal\Access.cs" />
     <Compile Include="model\Commande.cs" />
     <Compile Include="model\CommandeDocument.cs" />
     <Compile Include="model\CommandeRevue.cs" />
+    <Compile Include="model\Identifiants.cs" />
     <Compile Include="model\SuiviCommande.cs" />
+    <Compile Include="model\Utilisateur.cs" />
     <Compile Include="view\FrmAuthentification.cs">
       <SubType>Form</SubType>
     </Compile>
