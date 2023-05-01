@@ -18,8 +18,8 @@ namespace MediaTekDocuments.dal
         /// adresse de l'API
         /// </summary>
         private static readonly string uriApi = "http://localhost/rest_mediatekdocuments/";
+        private static readonly string connectionName = "MediaTekDocuments.Properties.Settings.mediaTekDocmentsConnectionString";
 
-        
 
         /// <summary>
         /// instance unique de la classe
@@ -41,7 +41,7 @@ namespace MediaTekDocuments.dal
         /// méthode HTTP pour update
         private const string PUT = "PUT";
 
-        public  List<CommandeRevue> GetFinAbonnement()
+        public List<CommandeRevue> GetFinAbonnement()
         {
 
             List<CommandeRevue> lesCommandesRevues = TraitementRecup<CommandeRevue>(GET, "finabonnement");
@@ -58,7 +58,7 @@ namespace MediaTekDocuments.dal
             String authenticationString;
             try
             {
-                authenticationString = "admin:adminpwd";
+                authenticationString = GetConnectionStringByName(connectionName);
                 api = ApiRest.GetInstance(uriApi, authenticationString);
             }
             catch (Exception e)
@@ -67,6 +67,19 @@ namespace MediaTekDocuments.dal
                 Environment.Exit(0);
             }
         }
+        /// <summary>
+        /// Récupération de la chaîne de connexion
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        static string GetConnectionStringByName(string name)
+        {
+            string returnValue = null;
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings[name];
+            if (settings != null)
+                returnValue = settings.ConnectionString;
+            return returnValue;
+        }
 
         /// <summary>
         /// Création et retour de l'instance unique de la classe
@@ -74,7 +87,7 @@ namespace MediaTekDocuments.dal
         /// <returns>instance unique de la classe</returns>
         public static Access GetInstance()
         {
-            if(instance == null)
+            if (instance == null)
             {
                 instance = new Access();
             }
@@ -237,7 +250,7 @@ namespace MediaTekDocuments.dal
         /// <returns>Liste d'objets Exemplaire</returns>
         public List<Exemplaire> GetExemplairesRevue(string idDocument)
         {
-            Dictionary<string, string> idDocumentArray= new Dictionary<string, string>();
+            Dictionary<string, string> idDocumentArray = new Dictionary<string, string>();
             idDocumentArray.Add("id", idDocument);
             string jsonIdDocument = JsonConvert.SerializeObject(idDocumentArray);
             List<Exemplaire> lesExemplaires = TraitementRecup<Exemplaire>(GET, "exemplaire/" + jsonIdDocument);
@@ -280,7 +293,7 @@ namespace MediaTekDocuments.dal
             try
             {
                 // récupération soit d'une liste vide (requête ok) soit de null (erreur)
-                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(PUT, "commandedocument/" + suiviIdChange["id"] + "/" +jsonsuiviIdChange );
+                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(PUT, "commandedocument/" + suiviIdChange["id"] + "/" + jsonsuiviIdChange);
                 return (liste != null);
             }
             catch (Exception ex)
@@ -297,7 +310,7 @@ namespace MediaTekDocuments.dal
         /// <param name="methode">verbe HTTP (GET, POST, PUT, DELETE)</param>
         /// <param name="message">information envoyée</param>
         /// <returns>liste d'objets récupérés (ou liste vide)</returns>
-        private List<T> TraitementRecup<T> (String methode, String message)
+        private List<T> TraitementRecup<T>(String methode, String message)
         {
             List<T> liste = new List<T>();
             try
@@ -319,9 +332,10 @@ namespace MediaTekDocuments.dal
                 {
                     Console.WriteLine("code erreur = " + code + " message = " + (String)retour["message"]);
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
-                Console.WriteLine("Erreur lors de l'accès à l'API : "+e.Message);
+                Console.WriteLine("Erreur lors de l'accès à l'API : " + e.Message);
                 Environment.Exit(0);
             }
             return liste;
