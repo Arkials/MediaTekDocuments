@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaTekDocuments", "MediaT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaTekDocumentsTests", "MediaTekDocumentsTests\MediaTekDocumentsTests.csproj", "{CCB33E02-1359-4674-B4A5-27193ADD7A41}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MeditaTekDocuments - installer", "MeditaTekDocuments - installer\MeditaTekDocuments - installer.vdproj", "{DD728E37-215B-4B6E-8389-754169ACC8F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CCB33E02-1359-4674-B4A5-27193ADD7A41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCB33E02-1359-4674-B4A5-27193ADD7A41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCB33E02-1359-4674-B4A5-27193ADD7A41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD728E37-215B-4B6E-8389-754169ACC8F5}.Debug|Any CPU.ActiveCfg = Debug
+		{DD728E37-215B-4B6E-8389-754169ACC8F5}.Debug|Any CPU.Build.0 = Debug
+		{DD728E37-215B-4B6E-8389-754169ACC8F5}.Release|Any CPU.ActiveCfg = Release
+		{DD728E37-215B-4B6E-8389-754169ACC8F5}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

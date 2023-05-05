@@ -1,0 +1,13 @@
+﻿C:\Users\Arkials\source\repos\MediaTekDocuments-master\MediaTekDocumentsTests\Properties\AssemblyInfo.cs
+C:\Users\Arkials\source\repos\MediaTekDocuments-master\MediaTekDocumentsTests\view\FrmMediatekTests.cs
+C:\Users\Arkials\source\repos\MediaTekDocuments-master\packages\MSTest.TestAdapter.3.0.2\build\_localization\fr\Microsoft.TestPlatform.AdapterUtilities.resources.dll
+C:\Users\Arkials\source\repos\MediaTekDocuments-master\packages\MSTest.TestAdapter.3.0.2\build\_localization\fr\Microsoft.TestPlatform.CoreUtilities.resources.dll
+C:\Users\Arkials\source\repos\MediaTekDocuments-master\packages\MSTest.TestAdapter.3.0.2\build\_localization\fr\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.resources.dll
+C:\Users\Arkials\source\repos\MediaTekDocuments-master\packages\MSTest.TestAdapter.3.0.2\build\_localization\fr\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.resources.dll
+C:\Users\Arkials\source\repos\MediaTekDocuments-master\packages\MSTest.TestAdapter.3.0.2\build\_localization\fr\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+C:\Users\Arkials\source\repos\MediaTekDocuments-master\packages\MSTest.TestAdapter.3.0.2\build\_localization\fr\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll
+C:\Users\Arkials\source\repos\MediaTekDocuments-master\packages\MSTest.TestAdapter.3.0.2\build\net462\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\Arkials\source\repos\MediaTekDocuments-master\packages\MSTest.TestAdapter.3.0.2\build\net462\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\Arkials\source\repos\MediaTekDocuments-master\packages\MSTest.TestAdapter.3.0.2\build\net462\Microsoft.TestPlatform.AdapterUtilities.dll
+C:\Users\Arkials\source\repos\MediaTekDocuments-master\MediaTekDocumentsTests\app.config
+C:\Users\Arkials\source\repos\MediaTekDocuments-master\MediaTekDocumentsTests\packages.config

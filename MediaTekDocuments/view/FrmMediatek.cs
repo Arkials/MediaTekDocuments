@@ -24,7 +24,7 @@ namespace MediaTekDocuments.view
         private readonly BindingSource bdgGenres = new BindingSource();
         private readonly BindingSource bdgPublics = new BindingSource();
         private readonly BindingSource bdgRayons = new BindingSource();
-        private BindingSource bdgSuiviCommande = new BindingSource();
+        private readonly BindingSource  bdgSuiviCommande = new BindingSource();
         private List<SuiviCommande> lesSuiviCommande;
 
 
@@ -39,12 +39,16 @@ namespace MediaTekDocuments.view
             Init();
             
         }
+
+        /// <summary>
+        /// Fonction gérant les accès en fonction de l'utilisateur
+        /// </summary>
         private void Init()
         {
             switch (UtilisateurLogged.IdService)
             {
                 case 2 :
-                    abonnementsBientotTermines();
+                    AbonnementsBientotTermines();
                     break;
                 case 3:
 
@@ -61,19 +65,23 @@ namespace MediaTekDocuments.view
 
         }
 
-
-        private void abonnementsBientotTermines()
+        /// <summary>
+        /// Affiche un message contenant les abonnements se finissant avant la fin du mois (s'il y en a)
+        /// </summary>
+        private void AbonnementsBientotTermines()
         {
             List<CommandeRevue> listeAbonnementsBientotTermines = controller.GetFinAbonnement() ;
-            string listeImprimee ="";
-            StringBuilder bld = new StringBuilder();
-
-            foreach (CommandeRevue commande in listeAbonnementsBientotTermines)
+            if (listeAbonnementsBientotTermines.Count > 0)
             {
-                bld.Append( commande.Titre + " " + commande.DateFinAbonnement + "\n");
+                StringBuilder bld = new StringBuilder();
+                foreach (CommandeRevue commande in listeAbonnementsBientotTermines)
+                {
+                    bld.Append( commande.Titre + " " + commande.DateFinAbonnement + "\n");
+                }
+                string listeImprimee = bld.ToString();
+                MessageBox.Show("Attention, ces abonnements arrivent à leur terme : "+"\n"+listeImprimee, "Fin d'abonnements", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            listeImprimee = bld.ToString();
-            MessageBox.Show("Attention, ces abonnements arrivent à leur terme : "+"\n"+listeImprimee, "Fin d'abonnements", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            
         }
 
         /// <summary>
@@ -161,6 +169,13 @@ namespace MediaTekDocuments.view
             dgv.DataSource = bdgSource;
         }
 
+        /// <summary>
+        /// Récupère la valeur de l'ID maximum et lui ajoute 1 avant de le retourner
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="listeCommande"></param>
+        /// <param name="numeroDebut"></param>
+        /// <returns></returns>
         private string RecupValeurMaxIdCommande<T>(List<T> listeCommande, string numeroDebut)
         {
             Console.WriteLine(listeCommande.Count);
@@ -582,9 +597,10 @@ namespace MediaTekDocuments.view
 
                 if (result == DialogResult.Yes)
                 { 
-                    Dictionary<string, string> suiviIdChange = new Dictionary<string, string>();
-                    suiviIdChange.Add("suivi_id", suiviIdChangement);
-                    suiviIdChange.Add("id", commandeDocumentSelectionne.IdPrimaire);
+                    Dictionary<string, string> suiviIdChange = new Dictionary<string, string>() {
+                        {"suivi_id", suiviIdChangement },
+                        {"id", commandeDocumentSelectionne.IdPrimaire }
+                    };
                     controller.ModifierCommandeDocument(suiviIdChange);
                     RemplirCommandesLivreSelectionne(true);
                 }
@@ -607,8 +623,9 @@ namespace MediaTekDocuments.view
                 DialogResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer " + commandeDocumentSelectionne.IdPrimaire + ".", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    Dictionary<string, string> idDocumentSuppr = new Dictionary<string, string>();
-                    idDocumentSuppr.Add("id", commandeDocumentSelectionne.IdPrimaire);
+                    Dictionary<string, string> idDocumentSuppr = new Dictionary<string, string>() {
+                        {"id", commandeDocumentSelectionne.IdPrimaire}
+                    };
                     controller.SupprCommande(idDocumentSuppr);
                     RemplirCommandesLivreSelectionne(true);
                 }
@@ -1105,9 +1122,11 @@ namespace MediaTekDocuments.view
 
                 if (result == DialogResult.Yes)
                 {
-                    Dictionary<string, string> suiviIdChange = new Dictionary<string, string>();
-                    suiviIdChange.Add("suivi_id", suiviIdChangement);
-                    suiviIdChange.Add("id", commandeDocumentSelectionne.IdPrimaire);
+                    Dictionary<string, string> suiviIdChange = new Dictionary<string, string>() {
+                        {"suivi_id", suiviIdChangement },
+                        {"id", commandeDocumentSelectionne.IdPrimaire}
+                    } ;
+
                     controller.ModifierCommandeDocument(suiviIdChange);
                 }
 
@@ -1160,7 +1179,9 @@ namespace MediaTekDocuments.view
                 DialogResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer " + commandeDocumentSelectionne.IdPrimaire + ".", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    Dictionary<string, string> idDocumentSuppr = new Dictionary<string, string>();
+                    Dictionary<string, string> idDocumentSuppr = new Dictionary<string, string>() {
+                        {"id", commandeDocumentSelectionne.IdPrimaire}
+                    };
                     idDocumentSuppr.Add("id", commandeDocumentSelectionne.IdPrimaire);
                     controller.SupprCommande(idDocumentSuppr);
                     RemplirCommandesDvdSelectionne(true);
@@ -1849,7 +1870,7 @@ namespace MediaTekDocuments.view
         {
             CommandeRevue CommandeRevueSelectionne = (CommandeRevue)dgvInfosCommandesRevue.SelectedRows[0].DataBoundItem;
 
-            List <DateTime> datesExemplaire = dateAchatExemplaireRevueSelectionne(CommandeRevueSelectionne.IdRevue);
+            List <DateTime> datesExemplaire = DateAchatExemplaireRevueSelectionne(CommandeRevueSelectionne.IdRevue);
             Console.WriteLine(CommandeRevueSelectionne.IdRevue);
 
             bool  aucunExemplaireLie = datesExemplaire.TrueForAll(date=> !ParutionDansAbonnement(CommandeRevueSelectionne.DateCommande, CommandeRevueSelectionne.DateFinAbonnement,date)) ;
@@ -1860,8 +1881,9 @@ namespace MediaTekDocuments.view
                     DialogResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer " + CommandeRevueSelectionne.IdPrimaire + ".", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
-                        Dictionary<string, string> idDocumentSuppr = new Dictionary<string, string>();
-                        idDocumentSuppr.Add("id", CommandeRevueSelectionne.IdPrimaire);
+                        Dictionary<string, string> idDocumentSuppr = new Dictionary<string, string>() {
+                            {"id", CommandeRevueSelectionne.IdPrimaire }                        
+                        };
                         controller.SupprCommande(idDocumentSuppr);
                         RemplirCommandesRevueSelectionne(true);
                     }
@@ -1901,7 +1923,12 @@ namespace MediaTekDocuments.view
             UpdateDgv(LesCommandesRevueSelectionne, bdgCommandesRevues, dgvInfosCommandesRevue);
         }
 
-        private List <DateTime> dateAchatExemplaireRevueSelectionne(string id)
+        /// <summary>
+        /// Retourne la liste des dates de parution des exemplaires de la revue sélectionnée  
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private List <DateTime> DateAchatExemplaireRevueSelectionne(string id)
         {
             List<Exemplaire> exemplairesRevue;
             lesExemplaires = controller.GetExemplairesRevue(id);
@@ -1912,6 +1939,14 @@ namespace MediaTekDocuments.view
             exemplairesRevue.ForEach(o => exemplairesDate.Add(o.DateAchat));
             return exemplairesDate;
         }
+
+        /// <summary>
+        /// Vérifie si la date de parution d'un exemplaire de revue est compris dans un abonnement 
+        /// </summary>
+        /// <param name="dateCommande"></param>
+        /// <param name="dateFinAbonnement"></param>
+        /// <param name="dateAchat"></param>
+        /// <returns></returns>
         public bool ParutionDansAbonnement(DateTime dateCommande, DateTime dateFinAbonnement, DateTime dateAchat)
         {
             Console.WriteLine(dateCommande + " " + dateFinAbonnement + " " + dateAchat);
@@ -1925,6 +1960,11 @@ namespace MediaTekDocuments.view
             }
         }
 
+        /// <summary>
+        /// Active les champs d'ajout si aucune commande n'est sélectionnée
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvInfosCommandesRevue_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvInfosCommandesRevue.SelectedRows.Count > 0)

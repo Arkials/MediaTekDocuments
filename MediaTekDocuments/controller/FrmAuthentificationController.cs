@@ -25,6 +25,11 @@ namespace MediaTekDocuments.controller
             access = Access.GetInstance();
         }
 
+        /// <summary>
+        /// retourne une liste contenant au plus un utilisateur correspondant aux identifiants envoyés
+        /// </summary>
+        /// <param name="identifiants"></param>
+        /// <returns></returns>
         public List<Utilisateur> GetUtilisateur(Identifiants identifiants)
         {
             return access.GetUtilisateur(identifiants);

@@ -24,6 +24,25 @@ namespace MediaTekDocuments.controller
         }
 
         /// <summary>
+        /// crée une commande de revue
+        /// </summary>
+        /// <param name="nvlCommandeRevue"></param>
+        /// <returns></returns>
+        public bool CreerCommandeRevue(CommandeRevue nvlCommandeRevue)
+        {
+            return access.CreerCommandeRevue(nvlCommandeRevue);
+        }
+
+        /// <summary>
+        /// getter sur les commandes de revue
+        /// </summary>
+        /// <returns></returns>
+        public List<CommandeRevue> GetAllCommandesRevue()
+        {
+            return access.GetAllCommandesRevues();
+        }
+
+        /// <summary>
         /// getter sur la liste des genres
         /// </summary>
         /// <returns>Liste d'objets Genre</returns>
@@ -41,6 +60,10 @@ namespace MediaTekDocuments.controller
             return access.GetAllLivres();
         }
 
+        /// <summary>
+        /// getter sur les abonnements finies dans moins d'un mois
+        /// </summary>
+        /// <returns></returns>
         public  List<CommandeRevue> GetFinAbonnement()
         {
             return access.GetFinAbonnement();
@@ -55,9 +78,24 @@ namespace MediaTekDocuments.controller
             return access.GetAllCommandesLivres();
         }
 
+        /// <summary>
+        /// Crée une commande de livre ou DVD
+        /// </summary>
+        /// <param name="commandeDocument"></param>
+        /// <returns></returns>
         public bool CreerCommandeDocument(CommandeDocument commandeDocument)
         {
             return access.CreerCommandeDocument(commandeDocument);
+        }
+
+        /// <summary>
+        /// Crée un exemplaire d'une revue dans la bdd
+        /// </summary>
+        /// <param name="exemplaire">L'objet Exemplaire concerné</param>
+        /// <returns>True si la création a pu se faire</returns>
+        public bool CreerExemplaire(Exemplaire exemplaire)
+        {
+            return access.CreerExemplaire(exemplaire);
         }
 
         /// <summary>
@@ -122,35 +160,26 @@ namespace MediaTekDocuments.controller
         {
             return access.GetExemplairesRevue(idDocuement);
         }
-
+        
         /// <summary>
-        /// Crée un exemplaire d'une revue dans la bdd
+        /// Modifie l'étape de suivi d'une commande
         /// </summary>
-        /// <param name="exemplaire">L'objet Exemplaire concerné</param>
-        /// <returns>True si la création a pu se faire</returns>
-        public bool CreerExemplaire(Exemplaire exemplaire)
-        {
-            return access.CreerExemplaire(exemplaire);
-        }
-
+        /// <param name="suiviIdChange"></param>
+        /// <returns></returns>
         public bool ModifierCommandeDocument(Dictionary<string,string> suiviIdChange)
         {
             return access.ModifierCommandeDocument(suiviIdChange);
         }
 
+        /// <summary>
+        /// Supprime une commande
+        /// </summary>
+        /// <param name="idDocument"></param>
+        /// <returns></returns>
         public bool SupprCommande(Dictionary<string,string> idDocument)
         {
             return access.SupprCommande(idDocument);
-        }
+        }       
 
-        public List<CommandeRevue> GetAllCommandesRevue()
-        {
-            return access.GetAllCommandesRevues();
-        }
-
-        public bool CreerCommandeRevue(CommandeRevue nvlCommandeRevue)
-        {
-            return access.CreerCommandeRevue(nvlCommandeRevue);
-        }
     }
 }
