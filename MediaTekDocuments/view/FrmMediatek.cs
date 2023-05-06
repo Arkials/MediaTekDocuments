@@ -178,12 +178,10 @@ namespace MediaTekDocuments.view
         /// <returns></returns>
         private string RecupValeurMaxIdCommande<T>(List<T> listeCommande, string numeroDebut)
         {
-            Console.WriteLine(listeCommande.Count);
             if (listeCommande.Count > 0)
             {
                PropertyInfo IdPrimaire = typeof(T).GetProperty("IdPrimaire");
                 int idMax= listeCommande.Max<T>(o => int.Parse((string)IdPrimaire.GetValue(o)));
-                Console.WriteLine(idMax);
                 string nvlIdMaxString = (idMax+1).ToString();
                 string nvlId = numeroDebut.Remove(5 - nvlIdMaxString.Length, nvlIdMaxString.Length) + nvlIdMaxString;
 
@@ -502,15 +500,24 @@ namespace MediaTekDocuments.view
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        
         private void tabCommandesLivres_Enter(object sender, EventArgs e)
         {
-            RemplirCbxSuiviCommande(cbxSuiviCommandeLivre);
-            List<Livre> sortedList;
-            sortedList = TriListePropriete(lesLivres, "Id");
-            cbxIdLivre.DataSource = sortedList;
-            cbxIdLivre.DisplayMember = "id";
-            dgvInfosCommandesLivres.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            RemplirCommandesLivreSelectionne(true);
+            if (UtilisateurLogged.IdService < 3)
+            {
+                RemplirCbxSuiviCommande(cbxSuiviCommandeLivre);
+                List<Livre> sortedList;
+                sortedList = TriListePropriete(lesLivres, "Id");
+                cbxIdLivre.DataSource = sortedList;
+                cbxIdLivre.DisplayMember = "id";
+                dgvInfosCommandesLivres.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                RemplirCommandesLivreSelectionne(true);
+            }
+            else
+            {
+                MessageBox.Show("Vous n'avez pas le niveau d'authorisation requis");
+            }
+
            
         }
 
@@ -998,14 +1005,22 @@ namespace MediaTekDocuments.view
         /// <param name="e"></param>
         private void tabCommandesDvd_Enter(object sender, EventArgs e)
         {
-            LesCommandesDvd = controller.GetAllCommandesDvd();
-            RemplirListeDvds();
-            RemplirCbxSuiviCommande(cbxSuiviCommandeDvd);
-            List<Dvd> sortedList;
-            sortedList = lesDvd.OrderBy(o => o.Id).ToList();
-            cbxIdDvd.DataSource = sortedList;
-            cbxIdDvd.DisplayMember = "id";
-            dgvInfosCommandesDvd.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            if (UtilisateurLogged.IdService < 3)
+            {
+                LesCommandesDvd = controller.GetAllCommandesDvd();
+                RemplirListeDvds();
+                RemplirCbxSuiviCommande(cbxSuiviCommandeDvd);
+                List<Dvd> sortedList;
+                sortedList = lesDvd.OrderBy(o => o.Id).ToList();
+                cbxIdDvd.DataSource = sortedList;
+                cbxIdDvd.DisplayMember = "id";
+                dgvInfosCommandesDvd.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            }
+            else
+            {
+                MessageBox.Show("Vous n'avez pas le niveau d'authorisation requis");
+            }
+
 
         }
 
@@ -1042,7 +1057,6 @@ namespace MediaTekDocuments.view
         {
             Dvd Dvdselectionne = cbxIdDvd.SelectedItem as Dvd;
             PropertyInfo[] proprietesDvdSelectionne = (Dvdselectionne.GetType()).GetProperties();
-            Console.WriteLine("dvd");
 
             Dictionary<string, string> dictionnaire = new Dictionary<string, string>();
 
@@ -1059,8 +1073,6 @@ namespace MediaTekDocuments.view
 
             dgvInfosDvd.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvInfosDvd.ColumnHeadersVisible = false;
-
-            Console.WriteLine((cbxIdDvd.SelectedItem as Dvd).Id);
 
             RemplirCommandesDvdSelectionne(false);
 
@@ -1112,9 +1124,7 @@ namespace MediaTekDocuments.view
         {
             CommandeDocument commandeDocumentSelectionne = (CommandeDocument)dgvInfosCommandesDvd.SelectedRows[0].DataBoundItem;
             string suiviIdCommande = commandeDocumentSelectionne.Suivi_id;
-            Console.WriteLine(suiviIdCommande);
             string suiviIdChangement = ((SuiviCommande)cbxSuiviCommandeDvd.SelectedItem).Id_suivi ;
-            Console.WriteLine(suiviIdChangement);
 
             if (verificationChangementCommande(suiviIdCommande, suiviIdChangement))
             {
@@ -1528,8 +1538,16 @@ namespace MediaTekDocuments.view
         /// <param name="e"></param>
         private void tabReceptionRevue_Enter(object sender, EventArgs e)
         {
-            lesRevues = controller.GetAllRevues();
-            txbReceptionRevueNumero.Text = "";
+            if (UtilisateurLogged.IdService < 3)
+            {
+                lesRevues = controller.GetAllRevues();
+                txbReceptionRevueNumero.Text = "";
+            }
+            else
+            {
+                MessageBox.Show("Vous n'avez pas les authorisations nécessaires");
+            }
+
         }
 
         /// <summary>
@@ -1783,13 +1801,21 @@ namespace MediaTekDocuments.view
         /// <param name="e"></param>
         private void tabCommandesRevues_Enter(object sender, EventArgs e)
         {
-            LesCommandesRevues = controller.GetAllCommandesRevue();
-            RemplirListeRevues();
-            List<Revue> sortedList;
-            sortedList = lesRevues.OrderBy(o => o.Id).ToList();
-            cbxIdRevue.DataSource = sortedList;
-            cbxIdRevue.DisplayMember = "id";
-            dgvInfosCommandesRevue.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            if (UtilisateurLogged.IdService < 3)
+            {
+                LesCommandesRevues = controller.GetAllCommandesRevue();
+                RemplirListeRevues();
+                List<Revue> sortedList;
+                sortedList = lesRevues.OrderBy(o => o.Id).ToList();
+                cbxIdRevue.DataSource = sortedList;
+                cbxIdRevue.DisplayMember = "id";
+                dgvInfosCommandesRevue.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            }
+            else
+            {
+                MessageBox.Show("Vous n'avez pas le niveau d'authorisation requis");
+            }
+
 
         }
 
@@ -1803,7 +1829,6 @@ namespace MediaTekDocuments.view
         {
             Revue Revueselectionne = cbxIdRevue.SelectedItem as Revue;
             PropertyInfo[] proprietesRevueSelectionne = (Revueselectionne.GetType()).GetProperties();
-            Console.WriteLine("Revue");
 
             Dictionary<string, string> dictionnaire = new Dictionary<string, string>();
 
@@ -1818,7 +1843,6 @@ namespace MediaTekDocuments.view
             dgvInfosRevue.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvInfosRevue.ColumnHeadersVisible = false;
 
-            Console.WriteLine((cbxIdRevue.SelectedItem as Revue).Id);
 
             RemplirCommandesRevueSelectionne(false);
 
@@ -1871,7 +1895,6 @@ namespace MediaTekDocuments.view
             CommandeRevue CommandeRevueSelectionne = (CommandeRevue)dgvInfosCommandesRevue.SelectedRows[0].DataBoundItem;
 
             List <DateTime> datesExemplaire = DateAchatExemplaireRevueSelectionne(CommandeRevueSelectionne.IdRevue);
-            Console.WriteLine(CommandeRevueSelectionne.IdRevue);
 
             bool  aucunExemplaireLie = datesExemplaire.TrueForAll(date=> !ParutionDansAbonnement(CommandeRevueSelectionne.DateCommande, CommandeRevueSelectionne.DateFinAbonnement,date)) ;
 
@@ -1949,7 +1972,6 @@ namespace MediaTekDocuments.view
         /// <returns></returns>
         public bool ParutionDansAbonnement(DateTime dateCommande, DateTime dateFinAbonnement, DateTime dateAchat)
         {
-            Console.WriteLine(dateCommande + " " + dateFinAbonnement + " " + dateAchat);
             if(dateAchat >dateCommande && dateAchat<dateFinAbonnement)
             {
                 return true;
