@@ -12,10 +12,16 @@ using MediaTekDocuments.model;
 
 namespace MediaTekDocuments.view
 {
+    /// <summary>
+    /// Classe de vue de la form d'authentification
+    /// </summary>
     public partial class FrmAuthentification : Form
     {
         private readonly FrmAuthentificationController controller;
 
+        /// <summary>
+        /// Constructeur de la form d'authentification
+        /// </summary>
         public FrmAuthentification()
         {
             InitializeComponent();

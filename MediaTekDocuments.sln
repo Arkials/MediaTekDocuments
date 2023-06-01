@@ -5,9 +5,13 @@ VisualStudioVersion = 16.0.32413.511
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaTekDocuments", "MediaTekDocuments\MediaTekDocuments.csproj", "{75DE903D-6147-4E14-BBE0-FA20CD1F9840}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaTekDocumentsTests", "MediaTekDocumentsTests\MediaTekDocumentsTests.csproj", "{CCB33E02-1359-4674-B4A5-27193ADD7A41}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaTekDocumentsTestsParutionDansAbonnement", "MediaTekDocumentsTests\MediaTekDocumentsTestsParutionDansAbonnement.csproj", "{CCB33E02-1359-4674-B4A5-27193ADD7A41}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MeditaTekDocuments - installer", "MeditaTekDocuments - installer\MeditaTekDocuments - installer.vdproj", "{DD728E37-215B-4B6E-8389-754169ACC8F5}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MeditaTekDocuments", "MeditaTekDocuments - installer\MeditaTekDocuments - installer.vdproj", "{DD728E37-215B-4B6E-8389-754169ACC8F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaTekDocumentsTests", "MediaTekDocumentsTestsParutionDansAbonnement1\MediaTekDocumentsTests.csproj", "{B8B0421E-F6DD-4AC4-9540-C32E27AA7542}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecFlowMediatekDocument", "SpecFlowMediatekDocument\SpecFlowMediatekDocument.csproj", "{70E661D5-9AE0-40F5-A29F-F893AA6D5ECA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{DD728E37-215B-4B6E-8389-754169ACC8F5}.Debug|Any CPU.Build.0 = Debug
 		{DD728E37-215B-4B6E-8389-754169ACC8F5}.Release|Any CPU.ActiveCfg = Release
 		{DD728E37-215B-4B6E-8389-754169ACC8F5}.Release|Any CPU.Build.0 = Release
+		{B8B0421E-F6DD-4AC4-9540-C32E27AA7542}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B0421E-F6DD-4AC4-9540-C32E27AA7542}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B0421E-F6DD-4AC4-9540-C32E27AA7542}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B0421E-F6DD-4AC4-9540-C32E27AA7542}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70E661D5-9AE0-40F5-A29F-F893AA6D5ECA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70E661D5-9AE0-40F5-A29F-F893AA6D5ECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70E661D5-9AE0-40F5-A29F-F893AA6D5ECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70E661D5-9AE0-40F5-A29F-F893AA6D5ECA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

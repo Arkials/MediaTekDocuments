@@ -120,7 +120,9 @@ namespace MediaTekDocuments.view
                 lesDvd = controller.GetAllDvd();
             }
         }
-
+        /// <summary>
+        /// Si vide, rempli la liste des revues
+        /// </summary>
         public void RemplirListeRevues()
         {
             if (lesRevues.Count == 0)
@@ -132,37 +134,41 @@ namespace MediaTekDocuments.view
         /// <summary>
         /// Initialise la liste des suivis de commande et rempli la cbx passée en paramètre
         /// </summary>
-        /// <param name="listEtape"></param>
-        public void RemplirCbxSuiviCommande(ComboBox listEtape)
+        /// <param name="cbxARemplir">Combobox contenant la liste des étapes</param>
+        public void RemplirCbxSuiviCommande(ComboBox cbxARemplir)
         {
             lesSuiviCommande = controller.GetAllSuiviCommande();
             List<SuiviCommande> sortedList;
             sortedList = lesSuiviCommande.OrderBy(o => o.Etape).ToList();
             bdgSuiviCommande.DataSource = sortedList;
-            listEtape.DataSource = bdgSuiviCommande;
-            listEtape.DisplayMember = "etape";
+            cbxARemplir.DataSource = bdgSuiviCommande;
+            cbxARemplir.DisplayMember = "etape";
         }
 
         /// <summary>
         /// Trie une liste selon le nom de sa propriété
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="listToSort"></param>
-        /// <param name="PropertyName"></param>
+        /// <typeparam name="T">Type générique</typeparam>
+        /// <param name="listToSort">Liste à trier</param>
+        /// <param name="PropertyName">Nom de la propriété sur laquel trier</param>
         /// <returns></returns>
         public List<T> TriListePropriete<T>(List<T> listToSort, string PropertyName)
         {
             List<T> sortedList;
             sortedList = listToSort.OrderBy(o => o.GetType().GetProperty(PropertyName).GetValue(o)).ToList();
+            if (Enumerable.SequenceEqual(listToSort, sortedList))
+            {
+                sortedList.Reverse();
+            }
             return sortedList;
         }
         /// <summary>
         /// Mets à jour les sources d'un datagridview
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="listeAffichable"></param>
-        /// <param name="bdgSource"></param>
-        /// <param name="dgv"></param>
+        /// <param name="listeAffichable">Liste à afficher</param>
+        /// <param name="bdgSource">Binding datasource à laquelle lier la liste </param>
+        /// <param name="dgv">DataGridView concernée</param>
         private void UpdateDgv<T>(List<T> listeAffichable, BindingSource bdgSource, DataGridView dgv)
         {
             bdgSource.DataSource = listeAffichable;
@@ -172,9 +178,9 @@ namespace MediaTekDocuments.view
         /// <summary>
         /// Récupère la valeur de l'ID maximum et lui ajoute 1 avant de le retourner
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="listeCommande"></param>
-        /// <param name="numeroDebut"></param>
+        /// <typeparam name="T">Type générique</typeparam>
+        /// <param name="listeCommande">Liste de commandes de livre, dvd ou revue</param>
+        /// <param name="numeroDebut">Début du numéro de la commande en fonction du type de commande</param>
         /// <returns></returns>
         private string RecupValeurMaxIdCommande<T>(List<T> listeCommande, string numeroDebut)
         {
@@ -198,6 +204,7 @@ namespace MediaTekDocuments.view
         #region Onglet Livres
         private readonly BindingSource bdgLivresListe = new BindingSource();
         private List<Livre> lesLivres = new List<Livre>();
+        private List<Livre> lesLivresAffiches = new List<Livre>();
 
         /// <summary>
         /// Ouverture de l'onglet Livres : 
@@ -220,6 +227,7 @@ namespace MediaTekDocuments.view
         /// <param name="livres">liste de livres</param>
         private void RemplirLivresListe(List<Livre> livres)
         {
+            lesLivresAffiches = livres;
             bdgLivresListe.DataSource = livres;
             dgvLivresListe.DataSource = bdgLivresListe;
             dgvLivresListe.Columns["isbn"].Visible = false;
@@ -482,8 +490,7 @@ namespace MediaTekDocuments.view
             VideLivresZones();
             string titreColonne = dgvLivresListe.Columns[e.ColumnIndex].HeaderText;
             List<Livre> sortedList;
-
-            sortedList = TriListePropriete(lesLivres, titreColonne);
+            sortedList = TriListePropriete(lesLivresAffiches, titreColonne);
             
             RemplirLivresListe(sortedList);
         }
@@ -630,10 +637,10 @@ namespace MediaTekDocuments.view
                 DialogResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer " + commandeDocumentSelectionne.IdPrimaire + ".", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    Dictionary<string, string> idDocumentSuppr = new Dictionary<string, string>() {
-                        {"id", commandeDocumentSelectionne.IdPrimaire}
-                    };
-                    controller.SupprCommande(idDocumentSuppr);
+                    Dictionary<string, string> idCommandeDocument = new Dictionary<string, string>() {
+                            {"id", commandeDocumentSelectionne.IdPrimaire}
+                        };
+                    controller.SupprCommande(idCommandeDocument);
                     RemplirCommandesLivreSelectionne(true);
                 }
             }
@@ -685,7 +692,7 @@ namespace MediaTekDocuments.view
         /// Rempli la liste des commandes du livre selectionné et l'affiche dans la dgv 
         /// 
         /// </summary>
-        /// <param name="reqApi"></param>
+        /// <param name="reqApi">Booleen pour faire une requête API ou non</param>
         private void RemplirCommandesLivreSelectionne(bool reqApi)
         {
             if (reqApi)
@@ -701,6 +708,7 @@ namespace MediaTekDocuments.view
         #region Onglet Dvd
         private readonly BindingSource bdgDvdListe = new BindingSource();
         private List<Dvd> lesDvd = new List<Dvd>();
+        private List<Dvd> lesDvdAffiches = new List<Dvd>();
 
         /// <summary>
         /// Ouverture de l'onglet Dvds : 
@@ -721,6 +729,7 @@ namespace MediaTekDocuments.view
         /// <param name="Dvds">liste de dvd</param>
         private void RemplirDvdListe(List<Dvd> Dvds)
         {
+            lesDvdAffiches = Dvds;
             bdgDvdListe.DataSource = Dvds;
             dgvDvdListe.DataSource = bdgDvdListe;
             dgvDvdListe.Columns["idRayon"].Visible = false;
@@ -984,7 +993,7 @@ namespace MediaTekDocuments.view
             string titreColonne = dgvDvdListe.Columns[e.ColumnIndex].HeaderText;
             List<Dvd> sortedList;
 
-            sortedList = TriListePropriete(lesDvd, titreColonne);            
+            sortedList = TriListePropriete(lesDvdAffiches, titreColonne);            
             RemplirDvdListe(sortedList);
         }
         #endregion
@@ -1146,10 +1155,10 @@ namespace MediaTekDocuments.view
         }
 
         /// <summary>
-        /// Vérifie selon le changement d'id demandé si possible pou non
+        /// Vérifie selon le changement d'id demandé si possible ou non
         /// </summary>
-        /// <param name="suiviIdCommande"></param>
-        /// <param name="suiviIdChangement"></param>
+        /// <param name="suiviIdCommande">Id de suivi de commande actuel</param>
+        /// <param name="suiviIdChangement">Id à changer</param>
         /// <returns></returns>
         private bool verificationChangementCommande(string suiviIdCommande, string suiviIdChangement)
         {
@@ -1189,11 +1198,10 @@ namespace MediaTekDocuments.view
                 DialogResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer " + commandeDocumentSelectionne.IdPrimaire + ".", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    Dictionary<string, string> idDocumentSuppr = new Dictionary<string, string>() {
-                        {"id", commandeDocumentSelectionne.IdPrimaire}
-                    };
-                    idDocumentSuppr.Add("id", commandeDocumentSelectionne.IdPrimaire);
-                    controller.SupprCommande(idDocumentSuppr);
+                    Dictionary<string, string> idCommandeDocument = new Dictionary<string, string>() {
+                            {"id", commandeDocumentSelectionne.IdPrimaire}
+                        };
+                    controller.SupprCommande(idCommandeDocument);
                     RemplirCommandesDvdSelectionne(true);
                 } 
                 
@@ -1210,7 +1218,7 @@ namespace MediaTekDocuments.view
         /// <summary>
         /// Rempli la liste (requête API si demandé) et mets à jour la dgv
         /// </summary>
-        /// <param name="reqApi"></param>
+        /// <param name="reqApi">Boolean, si true fait une requête à l'API</param>
         private void RemplirCommandesDvdSelectionne(bool reqApi)
         {
             if (reqApi)
@@ -1240,6 +1248,7 @@ namespace MediaTekDocuments.view
         #region Onglet Revues
         private readonly BindingSource bdgRevuesListe = new BindingSource();
         private List<Revue> lesRevues = new List<Revue>();
+        private List<Revue> lesRevuesAffichees = new List<Revue>();
 
         /// <summary>
         /// Ouverture de l'onglet Revues : 
@@ -1259,9 +1268,10 @@ namespace MediaTekDocuments.view
         /// <summary>
         /// Remplit le dategrid avec la liste reçue en paramètre
         /// </summary>
-        /// <param name="revues"></param>
+        /// <param name="revues">Liste des revues</param>
         private void RemplirRevuesListe(List<Revue> revues)
         {
+            lesRevuesAffichees = revues;
             bdgRevuesListe.DataSource = revues;
             dgvRevuesListe.DataSource = bdgRevuesListe;
             dgvRevuesListe.Columns["idRayon"].Visible = false;
@@ -1521,7 +1531,7 @@ namespace MediaTekDocuments.view
             VideRevuesZones();
             string titreColonne = dgvRevuesListe.Columns[e.ColumnIndex].HeaderText;
             List<Revue> sortedList;
-            sortedList = TriListePropriete(lesRevues, titreColonne);            
+            sortedList = TriListePropriete(lesRevuesAffichees, titreColonne);            
             RemplirRevuesListe(sortedList);
         }
         #endregion
@@ -1742,20 +1752,8 @@ namespace MediaTekDocuments.view
         private void dgvExemplairesListe_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             string titreColonne = dgvReceptionExemplairesListe.Columns[e.ColumnIndex].HeaderText;
-            List<Exemplaire> sortedList = new List<Exemplaire>();
-            switch (titreColonne)
-            {
-                case "Numero":
-                    sortedList = lesExemplaires.OrderBy(o => o.Numero).Reverse().ToList();
-                    break;
-                case "DateAchat":
-                    sortedList = lesExemplaires.OrderBy(o => o.DateAchat).Reverse().ToList();
-                    break;
-                case "Photo":
-                    sortedList = lesExemplaires.OrderBy(o => o.Photo).ToList();
-                    break;
-            }
-            RemplirReceptionExemplairesListe(sortedList);
+            lesExemplaires = TriListePropriete(lesExemplaires, titreColonne);
+            RemplirReceptionExemplairesListe(lesExemplaires);
         }
 
         /// <summary>
@@ -1904,10 +1902,10 @@ namespace MediaTekDocuments.view
                     DialogResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer " + CommandeRevueSelectionne.IdPrimaire + ".", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
-                        Dictionary<string, string> idDocumentSuppr = new Dictionary<string, string>() {
-                            {"id", CommandeRevueSelectionne.IdPrimaire }                        
+                        Dictionary<string, string> idCommandeRevue = new Dictionary<string, string>() {
+                            {"id", CommandeRevueSelectionne.IdPrimaire}
                         };
-                        controller.SupprCommande(idDocumentSuppr);
+                        controller.SupprCommande(idCommandeRevue);
                         RemplirCommandesRevueSelectionne(true);
                     }
 
@@ -1924,7 +1922,7 @@ namespace MediaTekDocuments.view
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void dvgInfosCommandesRevue_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvInfosCommandesRevue_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             string titreColonne = dgvInfosCommandesRevue.Columns[e.ColumnIndex].HeaderText;
 
@@ -1935,7 +1933,7 @@ namespace MediaTekDocuments.view
         /// <summary>
         /// Rempli la liste (requête API si demandé) et mets à jour la dgv commandes revues
         /// </summary>
-        /// <param name="reqApi"></param>
+        /// <param name="reqApi">booléen, si vrai demande à l'API</param>
         private void RemplirCommandesRevueSelectionne(bool reqApi)
         {
             if (reqApi)
@@ -1949,7 +1947,7 @@ namespace MediaTekDocuments.view
         /// <summary>
         /// Retourne la liste des dates de parution des exemplaires de la revue sélectionnée  
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id de la revue</param>
         /// <returns></returns>
         private List <DateTime> DateAchatExemplaireRevueSelectionne(string id)
         {
@@ -1966,9 +1964,9 @@ namespace MediaTekDocuments.view
         /// <summary>
         /// Vérifie si la date de parution d'un exemplaire de revue est compris dans un abonnement 
         /// </summary>
-        /// <param name="dateCommande"></param>
-        /// <param name="dateFinAbonnement"></param>
-        /// <param name="dateAchat"></param>
+        /// <param name="dateCommande">date de la commande</param>
+        /// <param name="dateFinAbonnement">date de fin de l'abonnement</param>
+        /// <param name="dateAchat">date d'achat</param>
         /// <returns></returns>
         public bool ParutionDansAbonnement(DateTime dateCommande, DateTime dateFinAbonnement, DateTime dateAchat)
         {
@@ -2006,5 +2004,7 @@ namespace MediaTekDocuments.view
 
 
         #endregion
+
+       
     }
 }

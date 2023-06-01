@@ -18,15 +18,15 @@ namespace MediaTekDocuments.view.Tests
         private readonly DateTime dateCommande = new DateTime(2023, 4, 20);
         private readonly DateTime dateFinAbonnement = new DateTime(2023, 4, 30);
 
-        FrmMediatek frmMediatek = new FrmMediatek();
+        private readonly FrmMediatek frmMediatek = new FrmMediatek(new model.Utilisateur("test","test",1));
 
 
         [TestMethod()]
         public void ParutionDansAbonnementTest()
         {
-            Assert.AreEqual(frmMediatek.ParutionDansAbonnement(dateCommande, dateFinAbonnement, dateAchatAvant), false);
-            Assert.AreEqual(frmMediatek.ParutionDansAbonnement(dateCommande, dateFinAbonnement, dateAchatApres), false);
-            Assert.AreEqual(frmMediatek.ParutionDansAbonnement(dateCommande, dateFinAbonnement, dateAchatPendant), true);
+            Assert.AreEqual(false,frmMediatek.ParutionDansAbonnement(dateCommande, dateFinAbonnement, dateAchatAvant));
+            Assert.AreEqual(false,frmMediatek.ParutionDansAbonnement(dateCommande, dateFinAbonnement, dateAchatApres));
+            Assert.AreEqual(true,frmMediatek.ParutionDansAbonnement(dateCommande, dateFinAbonnement, dateAchatPendant));
         }
     }
 }

@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using System.Configuration;
 using Serilog;
 
+
 namespace MediaTekDocuments.dal
 {
     /// <summary>
@@ -56,8 +57,8 @@ namespace MediaTekDocuments.dal
             try
             {
                 authenticationString = GetConnectionStringByName(connectionName);
-                api = ApiRest.GetInstance(uriApi, authenticationString);
-
+                api = ApiRest.GetInstance(uriApi, "admin:adminpwd");
+                //api = ApiRest.GetInstance(uriApi, authenticationString);
                 Log.Logger = new LoggerConfiguration()
                .MinimumLevel.Verbose()
                .WriteTo.Console()
@@ -74,7 +75,7 @@ namespace MediaTekDocuments.dal
         /// <summary>
         /// Récupération de la chaîne de connexion
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">Nom de la chaîne à récupérer</param>
         /// <returns></returns>
         static string GetConnectionStringByName(string name)
         {
@@ -101,8 +102,8 @@ namespace MediaTekDocuments.dal
         /// <summary>
         /// Envoi les identifiants saisis et renvoi un utilisateur s'il y correspond
         /// </summary>
-        /// <param name="identifiants"></param>
-        /// <returns></returns>
+        /// <param name="identifiants">Identifiants envoyés à l'API</param>
+        /// <returns>Un utilisateur</returns>
         public List<Utilisateur> GetUtilisateur(Identifiants identifiants)
         {
             String JsonIdentifiants = JsonConvert.SerializeObject(identifiants);
@@ -121,7 +122,7 @@ namespace MediaTekDocuments.dal
         /// <summary>
         /// Récupère les abonnements se finissant dans moins d'un mois
         /// </summary>
-        /// <returns></returns>
+        /// <returns>abonnements se finissant dans moins d'un mois </returns>
         public List<CommandeRevue> GetFinAbonnement()
         {
             List<CommandeRevue> lesCommandesRevues = TraitementRecup<CommandeRevue>(GET, "finabonnement");
@@ -132,8 +133,8 @@ namespace MediaTekDocuments.dal
         /// <summary>
         /// Crée une nouvelle commande de revue
         /// </summary>
-        /// <param name="nvlCommandeRevue"></param>
-        /// <returns></returns>
+        /// <param name="nvlCommandeRevue">Objet CommandeRevue</param>
+        /// <returns>true si réussi sinon false </returns>
         public bool CreerCommandeRevue(CommandeRevue nvlCommandeRevue)
         {
             String jsonCommandeRevue = JsonConvert.SerializeObject(nvlCommandeRevue, new CustomDateTimeConverter());
@@ -156,11 +157,12 @@ namespace MediaTekDocuments.dal
         /// <summary>
         /// Crée une commande de DVD ou livre
         /// </summary>
-        /// <param name="commandeDocument"></param>
-        /// <returns></returns>
+        /// <param name="commandeDocument">Objet CommandeDocument</param>
+        /// <returns>True si réussi sinon false</returns>
         public bool CreerCommandeDocument(CommandeDocument commandeDocument)
         {
             String jsonCommandeDocument = JsonConvert.SerializeObject(commandeDocument, new CustomDateTimeConverter());
+            Console.WriteLine(jsonCommandeDocument);
             try
             {
                 List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(POST, "commandedocument/" + jsonCommandeDocument);
@@ -186,6 +188,7 @@ namespace MediaTekDocuments.dal
         public bool CreerExemplaire(Exemplaire exemplaire)
         {
             String jsonExemplaire = JsonConvert.SerializeObject(exemplaire, new CustomDateTimeConverter());
+            Console.WriteLine(jsonExemplaire);
             try
             {
                 // récupération soit d'une liste vide (requête ok) soit de null (erreur)
@@ -261,7 +264,7 @@ namespace MediaTekDocuments.dal
         /// <summary>
         /// Retourne la liste des différentes étapes de commande avec leur ID
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Liste de type SuiviCommande</returns>
         public List<SuiviCommande> GetAllSuiviCommande()
         {
             List<SuiviCommande> lesSuivisCommandes = TraitementRecup<SuiviCommande>(GET, "suivicommande");
@@ -272,7 +275,7 @@ namespace MediaTekDocuments.dal
         /// <summary>
         /// Récupère les commandes des revues (abonnements)
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Liste de CommandeRevue</returns>
         public List<CommandeRevue> GetAllCommandesRevues()
         {
             List<CommandeRevue> lesCommandesRevues = TraitementRecup<CommandeRevue>(GET, "abonnement");
@@ -294,7 +297,7 @@ namespace MediaTekDocuments.dal
         /// <summary>
         /// Retourne toutes les commandes Dvd
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Liste de CommandeDocument</returns>
         public List<CommandeDocument> GetAllCommandesDvd()
         {
             List<CommandeDocument> lesCommandesDocuments = TraitementRecup<CommandeDocument>(GET, "commandesdvds");
@@ -358,15 +361,16 @@ namespace MediaTekDocuments.dal
         /// <summary>
         /// Supprime la commande ayant l'ID saisi
         /// </summary>
-        /// <param name="idDocument"></param>
-        /// <returns></returns>
-        public bool SupprCommande(Dictionary<string, string> idDocument)
+        /// <param name="idDocument">IdPrimaire du document à supprimer</param>
+        /// <returns>True si réussi sinon false</returns>
+        public bool SupprCommande(Dictionary<string,string> idDocument)
         {
-            String jsonCommandeDocument = JsonConvert.SerializeObject(idDocument, new CustomDateTimeConverter());
+            String jsonCommandeDocument = JsonConvert.SerializeObject(idDocument);
+            Console.WriteLine(jsonCommandeDocument);
 
             try
             {
-                List<CommandeDocument> liste = TraitementRecup<CommandeDocument>(DELETE, "commande/" + jsonCommandeDocument);
+                List<Commande> liste = TraitementRecup<Commande>(DELETE, "commande/" + jsonCommandeDocument);
                 if (liste != null)
                 {
                     Log.Information("Suppression d'une commande");
@@ -393,6 +397,7 @@ namespace MediaTekDocuments.dal
             try
             {
                 JObject retour = api.RecupDistant(methode, message);
+                Console.WriteLine(retour);
                 // extraction du code retourné
                 String code = (String)retour["code"];
                 if (code.Equals("200"))

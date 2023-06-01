@@ -32,5 +32,15 @@ namespace MediaTekDocuments.Properties {
                 return ((string)(this["mediatek86ConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("admin:adminpwd")]
+        public string mediaTekDocmentsConnectionString {
+            get {
+                return ((string)(this["mediaTekDocmentsConnectionString"]));
+            }
+        }
     }
 }

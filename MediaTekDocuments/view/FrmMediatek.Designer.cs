@@ -2055,6 +2055,7 @@ namespace MediaTekDocuments.view
             this.dgvInfosCommandesRevue.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvInfosCommandesRevue.Size = new System.Drawing.Size(760, 280);
             this.dgvInfosCommandesRevue.TabIndex = 5;
+            this.dgvInfosCommandesRevue.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvInfosCommandesRevue_ColumnHeaderMouseClick);
             this.dgvInfosCommandesRevue.SelectionChanged += new System.EventHandler(this.dgvInfosCommandesRevue_SelectionChanged);
             // 
             // cbxIdRevue
@@ -2302,7 +2303,7 @@ namespace MediaTekDocuments.view
             this.dgvReceptionExemplairesListe.Size = new System.Drawing.Size(521, 165);
             this.dgvReceptionExemplairesListe.TabIndex = 52;
             this.dgvReceptionExemplairesListe.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvExemplairesListe_ColumnHeaderMouseClick);
-            this.dgvReceptionExemplairesListe.SelectionChanged += new System.EventHandler(this.dgvReceptionExemplairesListe_SelectionChanged);
+            this.dgvReceptionExemplairesListe.SelectionChanged += new System.EventHandler(this.TabLivres_Enter);
             // 
             // txbReceptionRevueImage
             // 

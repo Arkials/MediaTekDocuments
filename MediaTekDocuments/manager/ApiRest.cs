@@ -62,6 +62,7 @@ namespace MediaTekDocuments.manager
         /// <returns>liste d'objets (select) ou liste vide (ok) ou null si erreur</returns>
         public JObject RecupDistant(string methode, string message)
         {
+            Console.WriteLine(methode + " " + message);
             // envoi du message et attente de la réponse
             switch (methode)
             {
@@ -82,6 +83,7 @@ namespace MediaTekDocuments.manager
                     return new JObject();
             }
             // récupération de l'information retournée par l'api
+            Console.WriteLine(httpResponse);
             return httpResponse.Content.ReadAsAsync<JObject>().Result;
         }
 

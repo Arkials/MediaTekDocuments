@@ -8,7 +8,7 @@ namespace MediaTekDocuments.controller
     /// <summary>
     /// Contrôleur lié à FrmMediatek
     /// </summary>
-    class FrmMediatekController
+     class FrmMediatekController
     {
         /// <summary>
         /// Objet d'accès aux données
