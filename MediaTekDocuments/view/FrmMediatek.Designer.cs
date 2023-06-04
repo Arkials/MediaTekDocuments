@@ -105,14 +105,11 @@ namespace MediaTekDocuments.view
             this.label30 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.grpDvdRecherche = new System.Windows.Forms.GroupBox();
-            this.btnDvdAnnulRayons = new System.Windows.Forms.Button();
             this.btnDvdAnnulPublics = new System.Windows.Forms.Button();
             this.btnDvdNumRecherche = new System.Windows.Forms.Button();
             this.label38 = new System.Windows.Forms.Label();
             this.txbDvdNumRecherche = new System.Windows.Forms.TextBox();
             this.btnDvdAnnulGenres = new System.Windows.Forms.Button();
-            this.cbxDvdRayons = new System.Windows.Forms.ComboBox();
-            this.label39 = new System.Windows.Forms.Label();
             this.cbxDvdPublics = new System.Windows.Forms.ComboBox();
             this.label40 = new System.Windows.Forms.Label();
             this.cbxDvdGenres = new System.Windows.Forms.ComboBox();
@@ -1138,14 +1135,11 @@ namespace MediaTekDocuments.view
             // 
             // grpDvdRecherche
             // 
-            this.grpDvdRecherche.Controls.Add(this.btnDvdAnnulRayons);
             this.grpDvdRecherche.Controls.Add(this.btnDvdAnnulPublics);
             this.grpDvdRecherche.Controls.Add(this.btnDvdNumRecherche);
             this.grpDvdRecherche.Controls.Add(this.label38);
             this.grpDvdRecherche.Controls.Add(this.txbDvdNumRecherche);
             this.grpDvdRecherche.Controls.Add(this.btnDvdAnnulGenres);
-            this.grpDvdRecherche.Controls.Add(this.cbxDvdRayons);
-            this.grpDvdRecherche.Controls.Add(this.label39);
             this.grpDvdRecherche.Controls.Add(this.cbxDvdPublics);
             this.grpDvdRecherche.Controls.Add(this.label40);
             this.grpDvdRecherche.Controls.Add(this.cbxDvdGenres);
@@ -1161,17 +1155,6 @@ namespace MediaTekDocuments.view
             this.grpDvdRecherche.TabIndex = 20;
             this.grpDvdRecherche.TabStop = false;
             this.grpDvdRecherche.Text = "Recherches";
-            // 
-            // btnDvdAnnulRayons
-            // 
-            this.btnDvdAnnulRayons.Location = new System.Drawing.Point(1111, 128);
-            this.btnDvdAnnulRayons.Margin = new System.Windows.Forms.Padding(4);
-            this.btnDvdAnnulRayons.Name = "btnDvdAnnulRayons";
-            this.btnDvdAnnulRayons.Size = new System.Drawing.Size(29, 27);
-            this.btnDvdAnnulRayons.TabIndex = 16;
-            this.btnDvdAnnulRayons.Text = "X";
-            this.btnDvdAnnulRayons.UseVisualStyleBackColor = true;
-            this.btnDvdAnnulRayons.Click += new System.EventHandler(this.btnDvdAnnulRayons_Click);
             // 
             // btnDvdAnnulPublics
             // 
@@ -1225,27 +1208,6 @@ namespace MediaTekDocuments.view
             this.btnDvdAnnulGenres.Text = "X";
             this.btnDvdAnnulGenres.UseVisualStyleBackColor = true;
             this.btnDvdAnnulGenres.Click += new System.EventHandler(this.btnDvdAnnulGenres_Click);
-            // 
-            // cbxDvdRayons
-            // 
-            this.cbxDvdRayons.FormattingEnabled = true;
-            this.cbxDvdRayons.Location = new System.Drawing.Point(827, 129);
-            this.cbxDvdRayons.Margin = new System.Windows.Forms.Padding(4);
-            this.cbxDvdRayons.Name = "cbxDvdRayons";
-            this.cbxDvdRayons.Size = new System.Drawing.Size(275, 24);
-            this.cbxDvdRayons.TabIndex = 10;
-            this.cbxDvdRayons.SelectedIndexChanged += new System.EventHandler(this.cbxDvdRayons_SelectedIndexChanged);
-            // 
-            // label39
-            // 
-            this.label39.AutoSize = true;
-            this.label39.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label39.Location = new System.Drawing.Point(611, 133);
-            this.label39.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(197, 17);
-            this.label39.TabIndex = 9;
-            this.label39.Text = "Ou sélectionner le rayon :";
             // 
             // cbxDvdPublics
             // 
@@ -2596,14 +2558,11 @@ namespace MediaTekDocuments.view
         private System.Windows.Forms.Button btnlivresAnnulPublics;
         private System.Windows.Forms.Button btnLivresAnnulRayons;
         private System.Windows.Forms.GroupBox grpDvdRecherche;
-        private System.Windows.Forms.Button btnDvdAnnulRayons;
         private System.Windows.Forms.Button btnDvdAnnulPublics;
         private System.Windows.Forms.Button btnDvdNumRecherche;
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.TextBox txbDvdNumRecherche;
         private System.Windows.Forms.Button btnDvdAnnulGenres;
-        private System.Windows.Forms.ComboBox cbxDvdRayons;
-        private System.Windows.Forms.Label label39;
         private System.Windows.Forms.ComboBox cbxDvdPublics;
         private System.Windows.Forms.Label label40;
         private System.Windows.Forms.ComboBox cbxDvdGenres;

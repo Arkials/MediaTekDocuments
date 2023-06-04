@@ -57,8 +57,8 @@ namespace MediaTekDocuments.dal
             try
             {
                 authenticationString = GetConnectionStringByName(connectionName);
-                api = ApiRest.GetInstance(uriApi, "admin:adminpwd");
-                //api = ApiRest.GetInstance(uriApi, authenticationString);
+                api = ApiRest.GetInstance(uriApi, authenticationString);                
+                //api = ApiRest.GetInstance(uriApi, "admin:adminpwd");
                 Log.Logger = new LoggerConfiguration()
                .MinimumLevel.Verbose()
                .WriteTo.Console()

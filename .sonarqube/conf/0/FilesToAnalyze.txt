@@ -28,6 +28,7 @@ C:\Users\Arkials\source\repos\MediaTekDocuments-master\MediaTekDocuments\Propert
 C:\Users\Arkials\source\repos\MediaTekDocuments-master\MediaTekDocuments\Properties\Resources.resx
 C:\Users\Arkials\source\repos\MediaTekDocuments-master\MediaTekDocuments\view\FrmAuthentification.resx
 C:\Users\Arkials\source\repos\MediaTekDocuments-master\MediaTekDocuments\view\FrmMediatek.resx
+C:\Users\Arkials\source\repos\MediaTekDocuments-master\.sonarlint\mediatekdocumentscsharp.ruleset
 C:\Users\Arkials\source\repos\MediaTekDocuments-master\MediaTekDocuments\packages.config
 C:\Users\Arkials\source\repos\MediaTekDocuments-master\MediaTekDocuments\Properties\Settings.settings
 C:\Users\Arkials\source\repos\MediaTekDocuments-master\MediaTekDocuments\App.config

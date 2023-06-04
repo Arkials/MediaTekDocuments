@@ -1,0 +1,11 @@
+﻿C:\Users\Arkials\source\repos\MediaTekDocuments-master\SpecFlowMediatekDocument\Steps\MediatekDocumentSteps.cs
+C:\Users\Arkials\source\repos\MediaTekDocuments-master\SpecFlowMediatekDocument\Features\MediatekDocument.feature
+C:\Users\Arkials\.nuget\packages\specflow.plus.livingdocplugin\3.9.57\lib\net461\LivingDoc.Dtos.dll
+C:\Users\Arkials\.nuget\packages\specflow.plus.livingdocplugin\3.9.57\lib\net461\LivingDoc.SpecFlowPlugin.dll
+C:\Users\Arkials\.nuget\packages\specflow.nunit\3.9.74\lib\net461\TechTalk.SpecFlow.NUnit.SpecFlowPlugin.dll
+C:\Users\Arkials\.nuget\packages\nunit3testadapter\4.4.2\build\net462\NUnit3.TestAdapter.dll
+C:\Users\Arkials\.nuget\packages\nunit3testadapter\4.4.2\build\net462\NUnit3.TestAdapter.pdb
+C:\Users\Arkials\.nuget\packages\nunit3testadapter\4.4.2\build\net462\nunit.engine.dll
+C:\Users\Arkials\.nuget\packages\nunit3testadapter\4.4.2\build\net462\nunit.engine.api.dll
+C:\Users\Arkials\.nuget\packages\nunit3testadapter\4.4.2\build\net462\nunit.engine.core.dll
+C:\Users\Arkials\.nuget\packages\nunit3testadapter\4.4.2\build\net462\testcentric.engine.metadata.dll

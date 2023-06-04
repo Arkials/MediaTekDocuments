@@ -718,7 +718,8 @@ namespace MediaTekDocuments.view
         /// <param name="e"></param>
         private void tabDvd_Enter(object sender, EventArgs e)
         {
-
+            RemplirComboCategorie(controller.GetAllGenres(), bdgGenres, cbxDvdGenres);
+            RemplirComboCategorie(controller.GetAllPublics(), bdgPublics, cbxDvdPublics);
             lesDvd = controller.GetAllDvd();
             RemplirDvdListeComplete();
         }
@@ -754,7 +755,6 @@ namespace MediaTekDocuments.view
             {
                 txbDvdTitreRecherche.Text = "";
                 cbxDvdGenres.SelectedIndex = -1;
-                cbxDvdRayons.SelectedIndex = -1;
                 cbxDvdPublics.SelectedIndex = -1;
                 Dvd dvd = lesDvd.Find(x => x.Id.Equals(txbDvdNumRecherche.Text));
                 if (dvd != null)
@@ -775,7 +775,7 @@ namespace MediaTekDocuments.view
         }
 
         /// <summary>
-        /// Recherche et affichage des Dvd dont le titre matche acec la saisie.
+        /// Recherche et affichage des Dvd dont le titre matche avec la saisie.
         /// Cette procédure est exécutée à chaque ajout ou suppression de caractère
         /// dans le textBox de saisie.
         /// </summary>
@@ -786,7 +786,6 @@ namespace MediaTekDocuments.view
             if (!txbDvdTitreRecherche.Text.Equals(""))
             {
                 cbxDvdGenres.SelectedIndex = -1;
-                cbxDvdRayons.SelectedIndex = -1;
                 cbxDvdPublics.SelectedIndex = -1;
                 txbDvdNumRecherche.Text = "";
                 List<Dvd> lesDvdParTitre;
@@ -796,7 +795,7 @@ namespace MediaTekDocuments.view
             else
             {
                 // si la zone de saisie est vide et aucun élément combo sélectionné, réaffichage de la liste complète
-                if (cbxDvdGenres.SelectedIndex < 0 && cbxDvdPublics.SelectedIndex < 0 && cbxDvdRayons.SelectedIndex < 0
+                if (cbxDvdGenres.SelectedIndex < 0 && cbxDvdPublics.SelectedIndex < 0
                     && txbDvdNumRecherche.Text.Equals(""))
                 {
                     RemplirDvdListeComplete();
@@ -861,7 +860,6 @@ namespace MediaTekDocuments.view
                 Genre genre = (Genre)cbxDvdGenres.SelectedItem;
                 List<Dvd> Dvd = lesDvd.FindAll(x => x.Genre.Equals(genre.Libelle));
                 RemplirDvdListe(Dvd);
-                cbxDvdRayons.SelectedIndex = -1;
                 cbxDvdPublics.SelectedIndex = -1;
             }
         }
@@ -880,29 +878,11 @@ namespace MediaTekDocuments.view
                 Public lePublic = (Public)cbxDvdPublics.SelectedItem;
                 List<Dvd> Dvd = lesDvd.FindAll(x => x.Public.Equals(lePublic.Libelle));
                 RemplirDvdListe(Dvd);
-                cbxDvdRayons.SelectedIndex = -1;
                 cbxDvdGenres.SelectedIndex = -1;
             }
         }
 
-        /// <summary>
-        /// Filtre sur le rayon
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cbxDvdRayons_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbxDvdRayons.SelectedIndex >= 0)
-            {
-                txbDvdTitreRecherche.Text = "";
-                txbDvdNumRecherche.Text = "";
-                Rayon rayon = (Rayon)cbxDvdRayons.SelectedItem;
-                List<Dvd> Dvd = lesDvd.FindAll(x => x.Rayon.Equals(rayon.Libelle));
-                RemplirDvdListe(Dvd);
-                cbxDvdGenres.SelectedIndex = -1;
-                cbxDvdPublics.SelectedIndex = -1;
-            }
-        }
+
 
         /// <summary>
         /// Sur la sélection d'une ligne ou cellule dans le grid
@@ -976,7 +956,6 @@ namespace MediaTekDocuments.view
         private void VideDvdZones()
         {
             cbxDvdGenres.SelectedIndex = -1;
-            cbxDvdRayons.SelectedIndex = -1;
             cbxDvdPublics.SelectedIndex = -1;
             txbDvdNumRecherche.Text = "";
             txbDvdTitreRecherche.Text = "";
